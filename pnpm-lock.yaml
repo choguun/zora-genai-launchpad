@@ -17,6 +17,9 @@ importers:
       '@zoralabs/coins-sdk':
         specifier: ^0.0.3
         version: 0.0.3(abitype@1.0.8(typescript@5.8.2))(viem@2.25.0(typescript@5.8.2))
+      '@zoralabs/protocol-deployments':
+        specifier: ^0.5.3
+        version: 0.5.3
       '@zoralabs/protocol-sdk':
         specifier: ^0.13.4
         version: 0.13.4(abitype@1.0.8(typescript@5.8.2))(viem@2.25.0(typescript@5.8.2))
@@ -48,7 +51,7 @@ importers:
         specifier: ^1.2.5
         version: 1.2.5
       viem:
-        specifier: ^2.25.0
+        specifier: 2.25.0
         version: 2.25.0(typescript@5.8.2)
     devDependencies:
       '@eslint/eslintrc':
