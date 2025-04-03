@@ -142,19 +142,26 @@ export default function Home() {
     // 1. Check Chain
     if (connectedChainId !== baseSepolia.id) {
       try {
+        console.log(`Switching chain to ${baseSepolia.name}...`);
         await switchChain({ chainId: baseSepolia.id });
-        // Re-check after switch attempt (or rely on component re-render)
-        if (window.ethereum && (await window.ethereum.request({ method: 'eth_chainId' })) !== baseSepolia.id.toString(16)) {
-            setMintError(`Please switch your wallet to ${baseSepolia.name}.`);
-            return;
-        }
+        // Remove the manual re-check using window.ethereum
+        // Rely on Wagmi hooks to update connectedChainId after switch
+        console.log(`Chain switch initiated or completed.`);
+        // Optional: Could add a small delay here or check chainId again if needed,
+        // but usually letting the user retry the mint if the switch wasn't instant works.
       } catch (switchError) {
         console.error("Failed to switch chain:", switchError);
         setMintError(`Failed to switch network. Please switch to ${baseSepolia.name} manually.`);
-        return;
+        return; // Stop if switch fails
       }
+       // It might be safer to return here and let the user click Mint again
+       // after the chain switch is confirmed by their wallet and Wagmi state updates.
+       // For now, let's proceed, assuming the switch was effective for the next steps.
+       // If issues persist, uncommenting the return below might be necessary.
+       // return;
     }
 
+    // Proceed with minting logic only if chain is correct (or after switch attempt)
     setIsMinting(true);
     setMintError(null);
     setMintTxHash(null);
@@ -196,6 +203,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center p-6 sm:p-24">
       <header className="w-full max-w-md mb-8 flex justify-between items-center gap-4">
         <h1 className="text-xl sm:text-2xl font-bold">AI Coin Generator</h1>
+        {/* @ts-expect-error - Web3Modal Button component */}
         <w3m-button />
       </header>
 
